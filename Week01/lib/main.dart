@@ -14,7 +14,9 @@ class MyApp extends StatelessWidget {
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Icon(Icons.school, size: 72),
             SizedBox(height: 16),
-            Text('M.Febriansyah', style: TextStyle(fontSize: 24)),
+            Text('M.Febriansyah', style: TextStyle(fontSize: 20)),
+            Text('244107020199', style: TextStyle(fontSize: 16)),
+            Text('Prodi:Teknik Informatika', style: TextStyle(fontSize: 16)),
             Text('Pemrograman Mobile — Minggu 1'),
           ]),
         ),
