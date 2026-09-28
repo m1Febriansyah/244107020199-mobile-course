@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Gunakan jalur relatif (mundur satu folder lalu masuk ke folder tujuan)
 import '../models/comment_model.dart'; 
-import '../repositories/comment_repository.dart'
+import '../repositories/comment_repository.dart';
 
 // Provider dasar untuk Dependency Injection (Dio dan Repository)
 final dioProvider = Provider<Dio>((ref) => Dio());
