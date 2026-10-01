@@ -3,12 +3,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/prefs.dart';
 
 // ==========================================
-// BAGIAN 1: PROVIDER & STATE MANAGEMENT
+// 1. PROVIDER SIMULASI OFFLINE (Aman dari error StateProvider)
+// ==========================================
+final forceOfflineProvider = NotifierProvider<ForceOfflineNotifier, bool>(ForceOfflineNotifier.new);
+
+class ForceOfflineNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void toggle(bool value) {
+    state = value;
+  }
+}
+
+// ==========================================
+// 2. PROVIDER DARK MODE
 // ==========================================
 final prefsRepositoryProvider = Provider((ref) => PrefsRepository());
-
-final darkModeProvider =
-    AsyncNotifierProvider<DarkModeNotifier, bool>(DarkModeNotifier.new);
+final darkModeProvider = AsyncNotifierProvider<DarkModeNotifier, bool>(DarkModeNotifier.new);
 
 class DarkModeNotifier extends AsyncNotifier<bool> {
   @override
@@ -25,7 +37,7 @@ class DarkModeNotifier extends AsyncNotifier<bool> {
 }
 
 // ==========================================
-// BAGIAN 2: ANTARMUKA (UI) SETTINGS PAGE
+// 3. UI SETTINGS PAGE
 // ==========================================
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -33,6 +45,7 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final darkModeState = ref.watch(darkModeProvider);
+    final isOffline = ref.watch(forceOfflineProvider); // Pantau status offline
 
     return Scaffold(
       appBar: AppBar(
@@ -40,23 +53,34 @@ class SettingsPage extends ConsumerWidget {
       ),
       body: ListView(
         children: [
-          // Menampilkan loading, error, atau switch toggle
+          // Pengaturan Dark Mode
           darkModeState.when(
             data: (isDark) => SwitchListTile(
               title: const Text('Dark Mode'),
               subtitle: const Text('Ubah tema aplikasi'),
               value: isDark,
-              onChanged: (value) {
-                ref.read(darkModeProvider.notifier).toggle();
-              },
+              onChanged: (value) => ref.read(darkModeProvider.notifier).toggle(),
             ),
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, stack) => ListTile(
-              title: Text('Error: $err'),
-            ),
+            error: (err, stack) => ListTile(title: Text('Error: $err')),
           ),
           
-          // Contoh tombol untuk mencatat waktu terakhir dibuka
+          const Divider(),
+          
+          // Pengaturan Simulasi Offline
+          SwitchListTile(
+            title: const Text('Simulasi Offline (Force Offline)'),
+            subtitle: const Text('Hentikan semua koneksi API'),
+            secondary: Icon(isOffline ? Icons.wifi_off : Icons.wifi),
+            value: isOffline,
+            onChanged: (val) {
+              ref.read(forceOfflineProvider.notifier).toggle(val);
+            },
+          ),
+
+          const Divider(),
+
+          // Catat waktu
           ListTile(
             title: const Text('Catat Waktu Buka'),
             trailing: const Icon(Icons.touch_app),
