@@ -2,7 +2,7 @@
 
 ## Identitas Mahasiswa
 * **Nama**: Muhammad Febriansyah
-* **NIM**: [Isi dengan NIM kamu]
+* **NIM**: 244107020199
 * **Mata Kuliah**: Pemrograman Mobile — Minggu 2
 * **Program Studi**: S1 Teknologi Informasi
 

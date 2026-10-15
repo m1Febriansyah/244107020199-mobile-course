@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import provider mu...
+import '../providers/auth_provider.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
@@ -12,10 +12,10 @@ class LoginPage extends ConsumerWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            // Contoh memanggil fungsi login
-            // ref.read(authStateProvider.notifier).login('test@test.com', '123456');
+            // Gunakan dummy data untuk memicu mock login di Praktikum 1
+            ref.read(authStateProvider.notifier).login('test@kampus.id', 'password123');
           },
-          child: const Text('Simulasi Login'),
+          child: const Text('Masuk (Mock)'),
         ),
       ),
     );
